@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const sequelize = require('./db');
@@ -5,6 +6,7 @@ const userRouter = require('./routes/user.routes');
 const lotteryRouter = require('./routes/lottery.routes');
 const entryRoutes = require('./routes/entry.routes');
 const prizeRoutes = require('./routes/prize.routes');
+const authRoutes = require('./routes/auth.routes');
 const logger = require('./utils/logger');
 const { listTables } = require('./utils/helpersDB');
 
@@ -26,6 +28,7 @@ app.use('/api', userRouter);
 app.use('/api', lotteryRouter);
 app.use('/api', entryRoutes);
 app.use('/api', prizeRoutes);
+app.use('/api', authRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: 'Маршрут не найден' });

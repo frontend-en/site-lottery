@@ -6,6 +6,7 @@ const User = sequelize.define('User', {
   password_hash: { type: DataTypes.STRING, allowNull: false },
   full_name: { type: DataTypes.STRING },
   card_token: { type: DataTypes.STRING },
+  is_verified: { type: DataTypes.BOOLEAN, defaultValue: false },
 }, { timestamps: true });
 
 module.exports = User;
