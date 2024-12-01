@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const sequelize = require('./db');
-const userRouter = require('./routs/user.routs');
+const userRouter = require('./routs/user.routes');
+const lotteryRouter = require('./routs/lottery.routes');
 const logger = require('./utils/logger');
 const { listTables } = require('./utils/helpersDB');
 
@@ -20,6 +21,8 @@ app.use((err, req, res, next) => {
 });
 
 app.use('/api', userRouter); // Добавлен слэш перед 'api'
+
+app.use('/api', lotteryRouter); // Добавлен слэш перед 'api/lottery'
 app.use((req, res, next) => {
   res.status(404).json({ message: 'Маршрут не найден' });
 });
