@@ -11,17 +11,28 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const mailOptions = {
-  from: process.env.EMAIL_USER,
-  to: 'kristinarwebdev@gmail.com', // Ваш email для проверки
-  subject: 'Тестовое письмо',
-  text: 'Это тестовое письмо для проверки работы Nodemailer.',
+const sendConfirmationEmail = async (to, token) => {
+  const confirmLink = `${process.env.BASE_URL}/api/auth/confirm/${token}`;
+  
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to,
+    subject: 'Подтверждение регистрации',
+    html: `
+      <p>Пожалуйста, подтвердите свою регистрацию, перейдя по ссылке:</p>
+      <a href="${confirmLink}">${confirmLink}</a>
+      <p>Если вы не регистрировались, проигнорируйте это письмо.</p>
+    `,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Письмо отправлено:', info.response);
+  } catch (error) {
+    console.error('Ошибка отправки:', error);
+  }
 };
 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    console.error('Ошибка отправки:', error);
-  } else {
-    console.log('Письмо отправлено:', info.response);
-  }
-});
+// Пример вызова функции
+const token = 'exampleToken'; // Замените на ваш токен
+sendConfirmationEmail('kristinarwebdev@gmail.com', token);

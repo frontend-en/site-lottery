@@ -107,3 +107,4 @@
 {"level":"info","message":"::1 - - [01/Dec/2024:19:12:10 +0000] \"POST /api/auth/register HTTP/1.1\" 500 48 \"-\" \"PostmanRuntime/7.43.0\"","service":"user-service","timestamp":"2024-12-01 22:12:10"}
 {"level":"info","message":"::1 - - [01/Dec/2024:19:14:29 +0000] \"POST /api/auth/register HTTP/1.1\" 400 84 \"-\" \"PostmanRuntime/7.43.0\"","service":"user-service","timestamp":"2024-12-01 22:14:29"}
 {"level":"info","message":"::1 - - [01/Dec/2024:19:14:45 +0000] \"POST /api/auth/register HTTP/1.1\" 500 50 \"-\" \"PostmanRuntime/7.43.0\"","service":"user-service","timestamp":"2024-12-01 22:14:45"}
+{"level":"info","message":"::1 - - [01/Dec/2024:20:44:50 +0000] \"GET /api/auth/confirm/exampleToken HTTP/1.1\" 400 64 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36\"","service":"user-service","timestamp":"2024-12-01 23:44:50"}
