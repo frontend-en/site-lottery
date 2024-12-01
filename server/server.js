@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const sequelize = require('./db');
-const userRouter = require('./routs/user.routes');
-const lotteryRouter = require('./routs/lottery.routes');
+const userRouter = require('./routes/user.routes');
+const lotteryRouter = require('./routes/lottery.routes');
+const entryRoutes = require('./routes/entry.routes');
+const prizeRoutes = require('./routes/prize.routes');
 const logger = require('./utils/logger');
 const { listTables } = require('./utils/helpersDB');
 
@@ -20,9 +22,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Внутренняя ошибка сервера' });
 });
 
-app.use('/api', userRouter); // Добавлен слэш перед 'api'
+app.use('/api', userRouter);
+app.use('/api', lotteryRouter);
+app.use('/api', entryRoutes);
+app.use('/api', prizeRoutes);
 
-app.use('/api', lotteryRouter); // Добавлен слэш перед 'api/lottery'
 app.use((req, res, next) => {
   res.status(404).json({ message: 'Маршрут не найден' });
 });
