@@ -23,6 +23,15 @@ app.use((err, req, res, next) => {
   logger.error('Ошибка: %o', err);
   res.status(500).json({ error: 'Внутренняя ошибка сервера' });
 });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  if (req.method === "OPTIONS") {
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use('/api', userRouter);
 app.use('/api', lotteryRouter);

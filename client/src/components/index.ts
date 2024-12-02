@@ -1,5 +1,3 @@
-import ThemeSwitcher from "./themeSwitcher/ThemeSwitcher";
+import ThemeSwitcher from './themeSwitcher/ThemeSwitcher';
 
-export {
-  ThemeSwitcher,
-}
+export { ThemeSwitcher };

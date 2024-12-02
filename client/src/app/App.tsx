@@ -1,15 +1,15 @@
+import { ThemeSwitcher } from '../components';
+import AuthForm from '../components/AuthForm/AuthForm';
 
-import { ThemeSwitcher } from '../components'
-
-import './App.css'
+import './App.css';
 
 function App() {
   return (
     <>
       <ThemeSwitcher />
-      <button type="submit" className="btn">Button</button>
+      <AuthForm />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
