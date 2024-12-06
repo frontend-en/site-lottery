@@ -18,54 +18,52 @@ const AuthForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200">
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title justify-center">Авторизация</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                placeholder="Введите email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input input-bordered w-full"
-                required
-              />
+    <div className="card w-96 bg-base-100 shadow-xl">
+      <div className="card-body">
+        <h2 className="card-title justify-center">Авторизация</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
+            <input
+              type="email"
+              placeholder="Введите email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
+          </div>
+          <div className="form-control w-full mt-4">
+            <label className="label">
+              <span className="label-text">Пароль</span>
+            </label>
+            <input
+              type="password"
+              placeholder="Введите пароль"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
+          </div>
+          {isError && (
+            <div className="text-error mt-2">
+              Ошибка авторизации:{' '}
+              {(error as any)?.data?.message || 'Неизвестная ошибка'}
             </div>
-            <div className="form-control w-full mt-4">
-              <label className="label">
-                <span className="label-text">Пароль</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Введите пароль"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="input input-bordered w-full"
-                required
-              />
-            </div>
-            {isError && (
-              <div className="text-error mt-2">
-                Ошибка авторизации:{' '}
-                {(error as any)?.data?.message || 'Неизвестная ошибка'}
-              </div>
-            )}
-            <div className="form-control mt-6">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Загрузка...' : 'Войти'}
-              </button>
-            </div>
-          </form>
-        </div>
+          )}
+          <div className="form-control mt-6">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Загрузка...' : 'Войти'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -172,7 +172,7 @@ const ThemeSwitcher: FC = () => {
   }, []);
 
   return (
-    <div className="dropdown absolute z-10 right-28">
+    <div className="dropdown absolute z-10 right-28 top-0">
       <div tabIndex={0} role="button" className="btn m-1">
         Theme
         <svg

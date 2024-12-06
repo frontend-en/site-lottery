@@ -1,14 +1,14 @@
+import { Outlet } from 'react-router-dom';
 import { ThemeSwitcher } from '../components';
-import AuthForm from '../components/AuthForm/AuthForm';
 
 import './App.css';
 
 function App() {
   return (
-    <>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-base-200">
       <ThemeSwitcher />
-      <AuthForm />
-    </>
+      <Outlet />
+    </div>
   );
 }
 
