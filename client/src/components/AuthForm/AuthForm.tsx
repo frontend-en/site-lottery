@@ -18,7 +18,7 @@ const AuthForm: React.FC = () => {
   };
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card w-96 bg-base-100 shadow-xl mx-auto">
       <div className="card-body">
         <h2 className="card-title justify-center">Авторизация</h2>
         <form onSubmit={handleSubmit}>

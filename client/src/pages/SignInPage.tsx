@@ -1,12 +1,12 @@
 import React from 'react';
 import { AuthForm, Layout } from '../components';
 
-const SignIn: React.FC = () => {
+const SignInPage: React.FC = () => {
   return (
-    <Layout>
+    <Layout sidebar={false}>
       <AuthForm />
     </Layout>
   );
 };
 
-export default SignIn;
+export default SignInPage;

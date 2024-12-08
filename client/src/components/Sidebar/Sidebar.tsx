@@ -1,20 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
   return (
     <aside className="h-full w-64 bg-base-200 p-4 shadow-lg">
       <ul className="menu p-0">
         <li>
-          <a href="/dashboard">Главная</a>
+          <Link to="/">Главная</Link>
         </li>
         <li>
-          <a href="/lotteries">Лотереи</a>
+          <Link to="/lotteries">Лотереи</Link>
         </li>
         <li>
-          <a href="/prizes">Призы</a>
+          <Link to="/prizes">Призы</Link>
         </li>
         <li>
-          <a href="/settings">Настройки</a>
+          <Link to="/settings">Настройки</Link>
         </li>
       </ul>
     </aside>

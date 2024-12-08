@@ -4,7 +4,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="footer items-center p-4 bg-neutral text-neutral-content">
       <div className="items-center grid-flow-col">
-        <p>© 2024 Удачка. Все права защищены.</p>
+        <p>© 2025 Удачная Касса 🎉. Все права защищены.</p>
       </div>
       <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
