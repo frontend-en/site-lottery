@@ -137,12 +137,12 @@ const RegForm: React.FC = () => {
             )}
 
             <div className="mt-2">
+              <span className="text-sm">{`Надежность пароля: ${['Очень слабый', 'Слабый', 'Средний', 'Хороший', 'Сильный'][passwordStrength - 1] || ''}`}</span>
               <progress
                 className="progress progress-primary w-full"
                 value={passwordStrength}
                 max="5"
               ></progress>
-              <span className="text-sm">{`Надежность пароля: ${['Очень слабый', 'Слабый', 'Средний', 'Хороший', 'Сильный'][passwordStrength - 1] || ''}`}</span>
             </div>
           </div>
 

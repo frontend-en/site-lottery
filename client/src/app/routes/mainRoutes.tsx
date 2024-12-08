@@ -1,13 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import {
-  HomePage,
-  SignInPage,
-  LotteriesPage,
-  PrizesPage,
-  SettingsPage,
-  SignUpPage,
-} from '../../pages';
+import { AsyncImportWrapper } from '../../features';
 
 export const MainRoutes = createBrowserRouter(
   [
@@ -18,27 +11,57 @@ export const MainRoutes = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <HomePage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/HomePage')}
+              fallback={<div>Loading HomePage...</div>}
+            />
+          ),
         },
         {
           path: 'sign-in',
-          element: <SignInPage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/SignInPage')}
+              fallback={<div>Loading SignInPage...</div>}
+            />
+          ),
         },
         {
           path: 'sign-up',
-          element: <SignUpPage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/SignUpPage')}
+              fallback={<div>Loading SignUpPage...</div>}
+            />
+          ),
         },
         {
           path: 'lotteries',
-          element: <LotteriesPage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/LotteriesPage')}
+              fallback={<div>Loading LotteriesPage...</div>}
+            />
+          ),
         },
         {
           path: 'prizes',
-          element: <PrizesPage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/PrizesPage')}
+              fallback={<div>Loading PrizesPage...</div>}
+            />
+          ),
         },
         {
           path: 'settings',
-          element: <SettingsPage />,
+          element: (
+            <AsyncImportWrapper
+              importFunc={() => import('../../pages/SettingsPage')}
+              fallback={<div>Loading SettingsPage...</div>}
+            />
+          ),
         },
       ],
     },
@@ -46,6 +69,10 @@ export const MainRoutes = createBrowserRouter(
   {
     future: {
       v7_fetcherPersist: true,
-    },
+      v7_relativeSplatPath: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    } as any,
   }
 );

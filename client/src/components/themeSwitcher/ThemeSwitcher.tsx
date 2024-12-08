@@ -8,17 +8,17 @@ const ThemeSwitcher: FC = () => {
   }, []);
 
   return (
-    <div className="dropdown absolute z-10 top-[64px] right-0 drop-shadow-xl">
-      <div tabIndex={0} role="button" className="btn m-1">
-        Theme
-        <svg
-          width="12px"
-          height="12px"
-          className="inline-block h-2 w-2 fill-current opacity-60"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 2048 2048"
-        >
-          <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+    <div className="dropdown drop-shadow-xl">
+      <div tabIndex={0} role="button" className="">
+        {/* Иконка переключения темы */}
+        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+          <title>Switch theme</title>
+          <desc>Created with Sketch.</desc>
+          <g id="🔍-Product-Icons" stroke="white" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="ic_fluent_dark_theme_24_filled" fill="#212121" fill-rule="nonzero">
+              <path d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M12,20 L12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 Z" id="🎨-Color"></path>
+            </g>
+          </g>
         </svg>
       </div>
 
