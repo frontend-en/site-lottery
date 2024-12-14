@@ -1,75 +1,75 @@
 import React, { useState } from 'react';
 import { useLoginMutation } from '../../store/services/api/auth/authApi';
+import { Card, FormControl, Input, ErrorMessage, Button, Checkbox } from '../../shared';
 
 const AuthForm: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
   const [login, { isLoading, isError, error }] = useLoginMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login({ email, password }).unwrap();
+      const response = await login(formData).unwrap();
       console.log('Авторизация успешна:', response.token);
-      // Сохраните токен или выполните дальнейшие действия
     } catch (err) {
       console.error('Ошибка авторизации:', err);
     }
   };
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl mx-auto">
+    <Card>
       <div className="card-body">
         <h2 className="card-title justify-center">Авторизация</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input
+          <FormControl label="Email">
+            <Input
               type="email"
+              name="email"
               placeholder="Введите email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input input-bordered w-full"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
-          </div>
-          <div className="form-control w-full mt-4">
-            <label className="label">
-              <span className="label-text">Пароль</span>
-            </label>
-            <input
+          </FormControl>
+          <FormControl label="Пароль" className="mt-4">
+            <Input
               type="password"
+              name="password"
               placeholder="Введите пароль"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input input-bordered w-full"
+              value={formData.password}
+              onChange={handleChange}
               required
             />
-          </div>
-          {isError && (
-            <div className="text-error mt-2">
-              Ошибка авторизации:{' '}
-              {(error as any)?.data?.message || 'Неизвестная ошибка'}
-            </div>
-          )}
+          </FormControl>
+          <Checkbox
+            label="Запомнить меня"
+            name="rememberMe"
+            checked={formData.rememberMe}
+            onChange={handleChange}
+          />
+          <ErrorMessage message={isError ? (error as any)?.data?.message || 'Неизвестная ошибка' : undefined} />
           <div className="form-control mt-6">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Загрузка...' : 'Войти'}
-            </button>
+            <Button type="submit" isLoading={isLoading}>
+              Войти
+            </Button>
           </div>
         </form>
       </div>
-    </div>
+    </Card>
   );
 };
 
 export default AuthForm;
+
+
 
 /*
   {
