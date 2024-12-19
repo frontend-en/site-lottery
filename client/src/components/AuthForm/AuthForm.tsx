@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useLoginMutation } from '../../store/services/api/auth/authApi';
 import { Card, FormControl, Input, ErrorMessage, Button, Checkbox } from '../../shared';
 
@@ -49,18 +50,24 @@ const AuthForm: React.FC = () => {
               required
             />
           </FormControl>
-          <Checkbox
-            label="Запомнить меня"
-            name="rememberMe"
-            checked={formData.rememberMe}
-            onChange={handleChange}
-          />
+          <FormControl className="mt-4">
+            <Checkbox
+              label="Запомнить меня"
+              name="rememberMe"
+              labelPosition='justify-start'
+              checked={formData.rememberMe}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl className="mb-4 text-end">
+            <Link to="/forgot-password">Забыли пароль?</Link>
+          </FormControl>
           <ErrorMessage message={isError ? (error as any)?.data?.message || 'Неизвестная ошибка' : undefined} />
-          <div className="form-control mt-6">
+          <FormControl className="my-4">
             <Button type="submit" isLoading={isLoading}>
               Войти
             </Button>
-          </div>
+          </FormControl>
         </form>
       </div>
     </Card>

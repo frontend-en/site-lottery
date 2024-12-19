@@ -28,9 +28,9 @@ const Input: FC<InputProps> = ({ isError, className, type, ...props }) => {
           onClick={handleToggleVisibility}
         >
           {isPasswordVisible ? (
-            <img src={closePass} />
-          ) : (
             <img src={showPassword} />
+          ) : (
+            <img src={closePass} />
           )}
         </span>
       )}

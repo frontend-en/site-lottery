@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 
 interface FormControlProps {
-  label: string;
+  label?: string;
   children: ReactNode;
   className?: string;
 }
@@ -9,9 +9,13 @@ interface FormControlProps {
 const FormControl: FC<FormControlProps> = ({ label, children, className }) => {
   return (
     <div className={`form-control w-full ${className}`}>
-      <label className="label">
-        <span className="label-text">{label}</span>
-      </label>
+      {
+        label && (
+          <label className="label">
+            <span className="label-text">{label}</span>
+          </label>
+        )
+      }
       {children}
     </div>
   );

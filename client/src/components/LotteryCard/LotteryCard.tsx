@@ -6,23 +6,23 @@ type LotteryCardProps = {
   image: string;
 };
 
-const lotteries = [
-  {
-    title: 'Супер Лото',
-    description: 'Выиграйте до 10,000,000 рублей! Билеты от 100 рублей.',
-    image: 'https://via.placeholder.com/300x200',
-  },
-  {
-    title: 'Моментальная Удача',
-    description: 'Мгновенные призы до 500,000 рублей. Каждый билет выигрывает!',
-    image: 'https://via.placeholder.com/300x200',
-  },
-  {
-    title: 'Фортуна',
-    description: 'Еженедельные розыгрыши с крупными призами!',
-    image: 'https://via.placeholder.com/300x200',
-  },
-];
+// const lotteries = [
+//   {
+//     title: 'Супер Лото',
+//     description: 'Выиграйте до 10,000,000 рублей! Билеты от 100 рублей.',
+//     image: 'https://via.placeholder.com/300x200',
+//   },
+//   {
+//     title: 'Моментальная Удача',
+//     description: 'Мгновенные призы до 500,000 рублей. Каждый билет выигрывает!',
+//     image: 'https://via.placeholder.com/300x200',
+//   },
+//   {
+//     title: 'Фортуна',
+//     description: 'Еженедельные розыгрыши с крупными призами!',
+//     image: 'https://via.placeholder.com/300x200',
+//   },
+// ];
 
 const LotteryCard: FC<LotteryCardProps> = ({ title, description, image }) => {
   return (

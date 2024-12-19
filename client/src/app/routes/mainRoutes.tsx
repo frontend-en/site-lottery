@@ -13,12 +13,10 @@ export const MainRoutes = createBrowserRouter(
         {
           index: true,
           element: (
-            <AnimatedPage>
               <AsyncImportWrapper
                 importFunc={() => import('../../pages/HomePage')}
                 fallback={<div>Loading HomePage...</div>}
               />
-            </AnimatedPage>
           ),
         },
         {
@@ -46,34 +44,28 @@ export const MainRoutes = createBrowserRouter(
         {
           path: 'lotteries',
           element: (
-            <AnimatedPage>
               <AsyncImportWrapper
                 importFunc={() => import('../../pages/LotteriesPage')}
                 fallback={<div>Loading LotteriesPage...</div>}
               />
-            </AnimatedPage>
           ),
         },
         {
           path: 'prizes',
           element: (
-            <AnimatedPage>
               <AsyncImportWrapper
                 importFunc={() => import('../../pages/PrizesPage')}
                 fallback={<div>Loading PrizesPage...</div>}
               />
-            </AnimatedPage>
           ),
         },
         {
           path: 'settings',
           element: (
-            <AnimatedPage>
               <AsyncImportWrapper
                 importFunc={() => import('../../pages/SettingsPage')}
                 fallback={<div>Loading SettingsPage...</div>}
               />
-            </AnimatedPage>
           ),
         },
       ],
