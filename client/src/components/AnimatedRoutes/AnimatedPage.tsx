@@ -8,6 +8,7 @@ const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 2000 }}
       transition={{ duration: 0.7 }}
+      className="grow"
     >
       {children}
     </motion.div>
