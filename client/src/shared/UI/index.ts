@@ -1,8 +1,9 @@
-export { default as OptimizedImage } from './OptimizedImage';
-export { default as Input } from './Input';
+// Базовые компоненты
 export { default as Button } from './Button';
-export { default as Card } from './Card';
-export { default as ErrorMessage } from './ErrorMessage';
-export { default as FormControl } from './FormControl';
-export { default as ProgressBar } from './ProgressBar';
+export { default as Input } from './Input';
 export { default as LoadingPage } from './LoadingPage';
+
+// Динамически импортируемые компоненты
+export const ErrorMessage = () => import('./ErrorMessage').then(m => m.default);
+export const FormControl = () => import('./FormControl').then(m => m.default);
+export const ProgressBar = () => import('./ProgressBar').then(m => m.default);

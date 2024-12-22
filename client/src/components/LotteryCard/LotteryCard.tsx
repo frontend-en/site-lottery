@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { OptimizedImage } from '../../shared/UI';
+import OptimizedImage from '../../shared/UI/OptimizedImage';
 
 interface LotteryCardProps {
   id: string;
