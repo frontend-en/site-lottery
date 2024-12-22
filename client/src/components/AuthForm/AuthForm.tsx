@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState, FC, ChangeEvent, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginMutation } from '../../store/services/api/auth/authApi';
 import { Card, FormControl, Input, ErrorMessage, Button, Checkbox } from '../../shared';
 
-const AuthForm: React.FC = () => {
+const AuthForm: FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
   const [login, { isLoading, isError, error }] = useLoginMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -15,7 +15,7 @@ const AuthForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await login(formData).unwrap();
