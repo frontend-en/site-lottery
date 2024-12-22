@@ -1,6 +1,32 @@
 import { FC, useState, memo, useEffect } from 'react';
 import { preloadImage } from '../../utils/preloadImage';
 
+// Кэшируем результат проверки поддержки WebP
+let webpSupportCache: boolean | null = null;
+
+const checkWebpSupport = async (): Promise<boolean> => {
+  if (webpSupportCache !== null) {
+    return webpSupportCache;
+  }
+
+  try {
+    const webP = new Image();
+    webP.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
+    
+    const result = await new Promise<boolean>((resolve) => {
+      webP.onload = () => resolve(true);
+      webP.onerror = () => resolve(false);
+    });
+
+    webpSupportCache = result;
+    return result;
+  } catch (error) {
+    console.error('Error checking WebP support:', error);
+    webpSupportCache = false;
+    return false;
+  }
+};
+
 interface OptimizedImageProps {
   src: string;
   webpSrc?: string;
@@ -20,48 +46,37 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
   width,
   height,
   priority = false,
+  itemProp,
 }) => {
   const [isLoading, setIsLoading] = useState(!priority);
   const [currentSrc, setCurrentSrc] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    const supportsWebp = async () => {
-      if (!webpSrc) return false;
-      
-      const webP = new Image();
-      webP.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
-      
-      return new Promise<boolean>((resolve) => {
-        webP.onload = () => resolve(true);
-        webP.onerror = () => resolve(false);
-      });
-    };
-
     const loadImage = async () => {
       try {
         if (priority) {
-          console.log('Loading priority image:', { src, webpSrc });
           await preloadImage(src);
-          if (webpSrc) {
-            const isWebpSupported = await supportsWebp();
-            console.log('WebP support check:', { isWebpSupported });
-            setCurrentSrc(isWebpSupported ? webpSrc : src);
-          } else {
-            setCurrentSrc(src);
-          }
-          setIsLoading(false);
-        } else {
-          if (webpSrc) {
-            const isWebpSupported = await supportsWebp();
-            console.log('WebP support check:', { isWebpSupported, webpSrc });
-            setCurrentSrc(isWebpSupported ? webpSrc : src);
-          } else {
-            setCurrentSrc(src);
-          }
         }
+
+        if (webpSrc) {
+          const isWebpSupported = await checkWebpSupport();
+          const imageToUse = isWebpSupported ? webpSrc : src;
+          
+          if (priority) {
+            await preloadImage(imageToUse);
+          }
+          
+          setCurrentSrc(imageToUse);
+        } else {
+          setCurrentSrc(src);
+        }
+        
+        setIsLoading(false);
       } catch (error) {
-        console.error('Failed to load image:', { error, src, webpSrc });
-        setCurrentSrc(src); // Fallback to original format
+        console.error('Error loading image:', error);
+        setCurrentSrc(src); // Fallback to original image
+        setError(true);
         setIsLoading(false);
       }
     };
@@ -69,29 +84,44 @@ const OptimizedImage: FC<OptimizedImageProps> = ({
     loadImage();
   }, [src, webpSrc, priority]);
 
+  if (error) {
+    return (
+      <div 
+        className={`bg-gray-200 flex items-center justify-center ${className}`}
+        style={{ width, height }}
+        role="img"
+        aria-label={alt}
+      >
+        <span className="text-gray-500">Ошибка загрузки</span>
+      </div>
+    );
+  }
+
   return (
     <>
       {isLoading && (
         <div 
-          className={`animate-pulse bg-base-300 ${className}`}
+          className={`animate-pulse bg-gray-200 ${className}`}
           style={{ width, height }}
-          aria-hidden="true"
+          role="presentation"
         />
       )}
       {currentSrc && (
-        <picture>
-          {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
-          <img
-            src={currentSrc}
-            alt={alt}
-            className={`${className} ${isLoading ? 'hidden' : ''}`}
-            loading={priority ? 'eager' : 'lazy'}
-            onLoad={() => setIsLoading(false)}
-            width={width}
-            height={height}
-            decoding="async"
-          />
-        </picture>
+        <img
+          src={currentSrc}
+          alt={alt}
+          className={`${className} ${isLoading ? 'hidden' : ''}`}
+          width={width}
+          height={height}
+          loading={priority ? 'eager' : 'lazy'}
+          itemProp={itemProp}
+          onError={() => {
+            setError(true);
+            if (currentSrc !== src) {
+              setCurrentSrc(src); // Fallback to original image
+            }
+          }}
+        />
       )}
     </>
   );
