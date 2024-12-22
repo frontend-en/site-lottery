@@ -4,6 +4,23 @@ import { AsyncImportWrapper } from '../../features';
 import { AnimatedPage } from '../../components';
 import { LoadingPage } from '../../shared/UI';
 
+// Предзагрузка основных страниц
+const HomePage = () => import('../../pages/HomePage');
+const SignInPage = () => import('../../pages/SignInPage');
+const SignUpPage = () => import('../../pages/SignUpPage');
+const LotteriesPage = () => import('../../pages/LotteriesPage');
+const PrizesPage = () => import('../../pages/PrizesPage');
+const SettingsPage = () => import('../../pages/SettingsPage');
+
+// Предварительная загрузка основных страниц
+if (typeof requestIdleCallback === 'function') {
+  requestIdleCallback(() => {
+    HomePage();
+    SignInPage();
+    LotteriesPage();
+  });
+}
+
 export const MainRoutes = createBrowserRouter(
   [
     {
@@ -15,7 +32,7 @@ export const MainRoutes = createBrowserRouter(
           index: true,
           element: (
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/HomePage')}
+                importFunc={HomePage}
                 fallback={<LoadingPage title="Загрузка HomePage..." />}
               />
           ),
@@ -25,7 +42,7 @@ export const MainRoutes = createBrowserRouter(
           element: (
             <AnimatedPage>
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/SignInPage')}
+                importFunc={SignInPage}
                 fallback={<LoadingPage title="Загрузка SignInPage..." />}
               />
             </AnimatedPage>
@@ -36,7 +53,7 @@ export const MainRoutes = createBrowserRouter(
           element: (
             <AnimatedPage>
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/SignUpPage')}
+                importFunc={SignUpPage}
                 fallback={<LoadingPage title="Загрузка SignUpPage..." />}
               />
             </AnimatedPage>
@@ -46,7 +63,7 @@ export const MainRoutes = createBrowserRouter(
           path: 'lotteries',
           element: (
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/LotteriesPage')}
+                importFunc={LotteriesPage}
                 fallback={<LoadingPage title="Загрузка LotteriesPage..." />}
               />
           ),
@@ -55,7 +72,7 @@ export const MainRoutes = createBrowserRouter(
           path: 'prizes',
           element: (
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/PrizesPage')}
+                importFunc={PrizesPage}
                 fallback={<LoadingPage title="Загрузка призов..." />}
               />
           ),
@@ -64,7 +81,7 @@ export const MainRoutes = createBrowserRouter(
           path: 'settings',
           element: (
               <AsyncImportWrapper
-                importFunc={() => import('../../pages/SettingsPage')}
+                importFunc={SettingsPage}
                 fallback={<LoadingPage title="Загрузка настроек..." />}
               />
           ),
