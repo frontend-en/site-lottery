@@ -16,6 +16,7 @@ const RegForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormState((prev) => ({ ...prev, [name]: value }));
 
     if (name === 'password') {
@@ -33,6 +34,7 @@ const RegForm: React.FC = () => {
         password: formState.password,
         full_name: formState.fullName,
       }).unwrap();
+
       console.log('Регистрация успешна:', response);
     } catch (err) {
       console.error('Ошибка регистрации:', err);

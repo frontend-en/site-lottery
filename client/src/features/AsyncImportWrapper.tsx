@@ -8,6 +8,7 @@ interface AsyncImportWrapperProps {
 
 const AsyncImportWrapper: FC<AsyncImportWrapperProps> = ({ importFunc, fallback = null }) => {
   const Component = useAsyncImport(importFunc);
+
   return Component ? <Component /> : (fallback || <div>Loading...</div>);
 };
 

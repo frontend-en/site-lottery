@@ -5,9 +5,11 @@ export function useAsyncImport(importFunc: () => Promise<{ default: React.Compon
 
   useEffect(() => {
     let isMounted = true;
+
     importFunc().then((module) => {
       if (isMounted) setComponent(() => module.default);
     });
+
     return () => {
       isMounted = false;
     };

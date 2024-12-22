@@ -5,6 +5,7 @@ import AnimatedPage from './AnimatedPage';
 
 const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
+
   return (
     <AnimatePresence mode="wait">
       <AnimatedPage key={location.pathname}>

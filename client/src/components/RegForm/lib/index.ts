@@ -1,15 +1,18 @@
 export const handlePasswordStrength = (password: string): number => {
   let strength = 0;
+
   if (password.length >= 8) strength += 1;
   if (/[A-Z]/.test(password)) strength += 1;
   if (/[a-z]/.test(password)) strength += 1;
   if (/[0-9]/.test(password)) strength += 1;
   if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
   return strength;
 };
 
 export const handleValidation = (formState:any, setErrors:any) => {
   const newErrors: { [key: string]: string | null } = {};
+
   if (!validateEmail(formState.email)) newErrors.email = 'Введите корректный email';
   if (!validatePassword(formState.password)) {
     newErrors.password =
@@ -20,6 +23,7 @@ export const handleValidation = (formState:any, setErrors:any) => {
   }
   if (!validateFullName(formState.fullName)) newErrors.fullName = 'Введите корректное имя';
   setErrors(newErrors);
+
   return Object.keys(newErrors).length === 0;
 };
 

@@ -9,6 +9,7 @@ const AuthForm: FC = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -19,6 +20,7 @@ const AuthForm: FC = () => {
     e.preventDefault();
     try {
       const response = await login(formData).unwrap();
+
       console.log('Авторизация успешна:', response.token);
     } catch (err) {
       console.error('Ошибка авторизации:', err);
@@ -75,8 +77,6 @@ const AuthForm: FC = () => {
 };
 
 export default AuthForm;
-
-
 
 /*
   {
