@@ -44,11 +44,22 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-core': ['react', 'react-dom'],
-          'react-router': ['react-router-dom'],
-          'ui-core': ['@headlessui/react'],
-          'utils': ['clsx', 'tailwindcss'],
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-core';
+            }
+            if (id.includes('react-router-dom')) {
+              return 'react-router';
+            }
+            if (id.includes('@headlessui/react')) {
+              return 'ui-core';
+            }
+            if (id.includes('clsx') || id.includes('tailwindcss')) {
+              return 'utils';
+            }
+            return 'vendor';
+          }
         },
         inlineDynamicImports: false,
         compact: true,

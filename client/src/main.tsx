@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
-import { MainRoutes } from './app';
+import MainRoutes from './app/routes/mainRoutes';
 import { store } from './store/store';
 
 import './styles/index.css';

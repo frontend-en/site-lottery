@@ -11,27 +11,27 @@ const AnimatedPage = lazy(() =>
 // Предзагрузка основных страниц с приоритетами
 const pageImports = {
   home: lazy(() => 
-    import('../../pages/HomePage' /* webpackChunkName: "home-page" */)
+    import(/* @vite-ignore */ '../../pages/HomePage' /* webpackChunkName: "home-page" */)
       .then(module => ({ default: module.default }))
   ),
   signIn: lazy(() => 
-    import('../../pages/SignInPage' /* webpackChunkName: "auth-page" */)
+    import(/* @vite-ignore */ '../../pages/SignInPage' /* webpackChunkName: "auth-page" */)
       .then(module => ({ default: module.default }))
   ),
   signUp: lazy(() => 
-    import('../../pages/SignUpPage' /* webpackChunkName: "auth-page" */)
+    import(/* @vite-ignore */ '../../pages/SignUpPage' /* webpackChunkName: "auth-page" */)
       .then(module => ({ default: module.default }))
   ),
   lotteries: lazy(() => 
-    import('../../pages/LotteriesPage' /* webpackChunkName: "lotteries-page" */)
+    import(/* @vite-ignore */ '../../pages/LotteriesPage' /* webpackChunkName: "lotteries-page" */)
       .then(module => ({ default: module.default }))
   ),
   prizes: lazy(() => 
-    import('../../pages/PrizesPage' /* webpackChunkName: "prizes-page" */)
+    import(/* @vite-ignore */ '../../pages/PrizesPage' /* webpackChunkName: "prizes-page" */)
       .then(module => ({ default: module.default }))
   ),
   settings: lazy(() => 
-    import('../../pages/SettingsPage' /* webpackChunkName: "settings-page" */)
+    import(/* @vite-ignore */ '../../pages/SettingsPage' /* webpackChunkName: "settings-page" */)
       .then(module => ({ default: module.default }))
   )
 };
@@ -42,7 +42,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
     // Высокий приоритет
     const prefetchHighPriority = () => {
       const links = ['home', 'lotteries'].map(page => 
-        import(`../../pages/${page}Page`)
+        import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
       return Promise.all(links);
     };
@@ -50,7 +50,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
     // Средний приоритет
     const prefetchMediumPriority = () => {
       const links = ['signIn', 'prizes'].map(page => 
-        import(`../../pages/${page}Page`)
+        import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
       return Promise.all(links);
     };
@@ -58,7 +58,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
     // Низкий приоритет
     const prefetchLowPriority = () => {
       const links = ['signUp', 'settings'].map(page => 
-        import(`../../pages/${page}Page`)
+        import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
       return Promise.all(links);
     };
@@ -75,7 +75,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
   });
 }
 
-export const MainRoutes = createBrowserRouter(
+const MainRoutes = createBrowserRouter(
   [
     {
       errorElement: <div>Страница не найдена!</div>,
@@ -150,3 +150,5 @@ export const MainRoutes = createBrowserRouter(
     },
   }
 );
+
+export default MainRoutes;
