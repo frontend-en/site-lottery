@@ -1,6 +1,13 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import LotteryCard from './LotteryCard';
-import { DMImage, AXImage, PTAImage } from '../../assets';
+import {
+  DMImage,
+  AXImage,
+  PTAImage,
+  DMImageWebp,
+  AXImageWebp,
+  PTAImageWebp
+} from '../../assets';
 
 // дописать бекенд
 const lotteries = [
@@ -9,6 +16,7 @@ const lotteries = [
     bandName: 'Танцы Сознания',
     concertDate: '2024-01-15',
     imageUrl: DMImage,
+    webpImageUrl: DMImageWebp,
     ticketPrice: 2500,
   },
   {
@@ -16,6 +24,7 @@ const lotteries = [
     bandName: 'AsperX',
     concertDate: '2024-01-22',
     imageUrl: AXImage,
+    webpImageUrl: AXImageWebp,
     ticketPrice: 2000,
   },
   {
@@ -23,6 +32,7 @@ const lotteries = [
     bandName: 'Playingtheangel',
     concertDate: '2024-01-29',
     imageUrl: PTAImage,
+    webpImageUrl: PTAImageWebp,
     ticketPrice: 2200,
   },
 ];
@@ -30,14 +40,15 @@ const lotteries = [
 const LotteryGrid: FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
-      {lotteries.map((lottery) => (
+      {lotteries.map((lottery, index) => (
         <LotteryCard
           key={lottery.id}
           {...lottery}
+          priority={index < 2} // Приоритетная загрузка первых двух изображений
         />
       ))}
     </div>
   );
 };
 
-export default LotteryGrid;
+export default memo(LotteryGrid);

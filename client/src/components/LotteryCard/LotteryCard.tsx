@@ -1,12 +1,15 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
+import { OptimizedImage } from '../../shared/UI';
 
 interface LotteryCardProps {
   id: string;
   bandName: string;
   concertDate: string;
   imageUrl: string;
+  webpImageUrl?: string;
   ticketPrice: number;
+  priority?: boolean;
 }
 
 const LotteryCard: FC<LotteryCardProps> = ({
@@ -14,7 +17,9 @@ const LotteryCard: FC<LotteryCardProps> = ({
   bandName,
   concertDate,
   imageUrl,
+  webpImageUrl,
   ticketPrice,
+  priority = false,
 }) => {
   const formattedDate = new Date(concertDate).toLocaleDateString('ru-RU', {
     day: 'numeric',
@@ -30,12 +35,15 @@ const LotteryCard: FC<LotteryCardProps> = ({
       data-testid="lottery-card"
     >
       <figure className="relative h-48 sm:h-56 md:h-64">
-        <img
+        <OptimizedImage
           src={imageUrl}
+          webpSrc={webpImageUrl}
           alt={`Концерт группы ${bandName}`}
           className="w-full h-full object-cover"
-          loading="lazy"
+          width={800}
+          height={600}
           itemProp="image"
+          priority={priority}
         />
         <div 
           className="absolute top-4 right-4 badge badge-secondary p-3"
@@ -97,4 +105,4 @@ const LotteryCard: FC<LotteryCardProps> = ({
   );
 };
 
-export default LotteryCard;
+export default memo(LotteryCard);
