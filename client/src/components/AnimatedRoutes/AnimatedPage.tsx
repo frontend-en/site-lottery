@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { motion } from 'framer-motion';
 
-const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AnimatedPage: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: -2000 }}

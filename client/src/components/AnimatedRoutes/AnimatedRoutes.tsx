@@ -1,9 +1,9 @@
-import React from 'react';
+import { FC } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import AnimatedPage from './AnimatedPage';
 
-const AnimatedRoutes: React.FC = () => {
+const AnimatedRoutes: FC = () => {
   const location = useLocation();
 
   return (

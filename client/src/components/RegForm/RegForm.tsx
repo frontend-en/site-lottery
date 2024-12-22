@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { useRegisterMutation } from '../../store/services/api/auth/authApi';
 import { Card, FormControl, Input, Button, ErrorMessage, ProgressBar } from '../../shared';
 import { handlePasswordStrength, handleValidation } from './lib';
 
-const RegForm: React.FC = () => {
+const RegForm: FC = () => {
   const [formState, setFormState] = useState({
     email: '',
     password: '',

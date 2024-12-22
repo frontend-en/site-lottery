@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeSwitcher } from '../';
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   return (
     <header className="navbar bg-base-100 shadow-md relative">
       <div className='flex items-center justify-between 2xl:max-w-[1440px] xl:max-w-[1024px] mx-auto w-full'>

@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const Sidebar: React.FC = () => {
+const Sidebar: FC = () => {
   return (
     <aside className="h-full w-64 bg-base-200 p-4 shadow-lg">
       <ul className="menu p-0">

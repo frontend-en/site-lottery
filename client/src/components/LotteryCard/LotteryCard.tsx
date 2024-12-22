@@ -1,43 +1,99 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-type LotteryCardProps = {
-  title: string;
-  description: string;
-  image: string;
-};
+interface LotteryCardProps {
+  id: string;
+  bandName: string;
+  concertDate: string;
+  imageUrl: string;
+  ticketPrice: number;
+}
 
-// const lotteries = [
-//   {
-//     title: 'Супер Лото',
-//     description: 'Выиграйте до 10,000,000 рублей! Билеты от 100 рублей.',
-//     image: 'https://via.placeholder.com/300x200',
-//   },
-//   {
-//     title: 'Моментальная Удача',
-//     description: 'Мгновенные призы до 500,000 рублей. Каждый билет выигрывает!',
-//     image: 'https://via.placeholder.com/300x200',
-//   },
-//   {
-//     title: 'Фортуна',
-//     description: 'Еженедельные розыгрыши с крупными призами!',
-//     image: 'https://via.placeholder.com/300x200',
-//   },
-// ];
+const LotteryCard: FC<LotteryCardProps> = ({
+  id,
+  bandName,
+  concertDate,
+  imageUrl,
+  ticketPrice,
+}) => {
+  const formattedDate = new Date(concertDate).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 
-const LotteryCard: FC<LotteryCardProps> = ({ title, description, image }) => {
   return (
-    <div className="card bg-base-200 shadow-md max-w-56">
-      <figure>
-        <img src={image} alt={title} className="w-full h-48 object-cover" />
+    <article 
+      className="card w-full bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300"
+      itemScope
+      itemType="https://schema.org/Event"
+      data-testid="lottery-card"
+    >
+      <figure className="relative h-48 sm:h-56 md:h-64">
+        <img
+          src={imageUrl}
+          alt={`Концерт группы ${bandName}`}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          itemProp="image"
+        />
+        <div 
+          className="absolute top-4 right-4 badge badge-secondary p-3"
+          aria-label={`Стоимость билета: ${ticketPrice} рублей`}
+        >
+          Билет: {ticketPrice} ₽
+        </div>
       </figure>
-      <div className="card-body">
-        <h3 className="card-title">{title}</h3>
-        <p>{description}</p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary btn-sm">Участвовать</button>
+      
+      <div className="card-body p-4 sm:p-6">
+        <h2 
+          className="card-title text-xl sm:text-2xl font-bold"
+          itemProp="name"
+        >
+          {bandName}
+        </h2>
+        <p 
+          className="text-sm sm:text-base text-base-content/70"
+        >
+          <span className="sr-only">Дата проведения концерта:</span>
+          <span itemProp="startDate" content={concertDate}>
+            Дата концерта: {formattedDate}
+          </span>
+        </p>
+        
+        <div className="mt-4 space-y-3">
+          <div 
+            className="bg-base-200 p-3 sm:p-4 rounded-lg"
+            role="complementary"
+            aria-label="Информация о розыгрыше"
+          >
+            <p 
+              className="text-center font-semibold text-primary text-sm sm:text-base"
+              itemProp="description"
+            >
+              Выиграй бесплатный билет на концерт!
+            </p>
+          </div>
+          
+          <div className="card-actions">
+            <Link 
+              to={`/lotteries/${id}`}
+              className="btn btn-primary w-full"
+              aria-label={`Участвовать в розыгрыше билетов на концерт группы ${bandName}`}
+              role="button"
+            >
+              Участвовать в розыгрыше
+            </Link>
+          </div>
+        </div>
+
+        <div itemProp="offers" itemScope itemType="https://schema.org/Offer" className="hidden">
+          <span itemProp="price" content={String(ticketPrice)}></span>
+          <span itemProp="priceCurrency" content="RUB"></span>
+          <link itemProp="url" href={`/lotteries/${id}`} />
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

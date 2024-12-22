@@ -1,22 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { FC } from 'react';
 import { Layout } from '../components';
+import { LotteryGrid } from '../components/LotteryCard';
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
   return (
     <Layout sidebar={false}>
-      <h2 className="text-2xl font-bold">Готовы испытать удачу?</h2>
-      <p className="mt-2">
-        Присоединяйтесь к нам прямо сейчас и начните выигрывать!
-      </p>
-      <section className="mt-4">
-        <h1>Музикальные группы</h1>
-        <ul>
-          <li><Link to="/lotteries/1">Группа 1</Link></li>
-          <li><Link to="/lotteries/2">Группа 2</Link></li>
-          <li><Link to="/lotteries/3">Группа 3</Link></li>
-        </ul>
-      </section>
+      <div className="text-center mb-8">
+        <h2 className="text-4xl font-bold mb-4">Готовы испытать удачу?</h2>
+        <p className="text-xl text-base-content/70">
+          Выиграйте бесплатные билеты на концерты ваших любимых групп!
+        </p>
+      </div>
+
+      <LotteryGrid />
     </Layout>
   );
 };

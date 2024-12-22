@@ -1,6 +1,6 @@
-import React from 'react';
+import { FC } from 'react';
 
-const Footer: React.FC = () => {
+const Footer: FC = () => {
   return (
     <footer className="footer items-center p-4 bg-neutral text-neutral-content ">
       <div className='flex items-center justify-between 2xl:max-w-[1440px] xl:max-w-[1024px] mx-auto w-full'>
