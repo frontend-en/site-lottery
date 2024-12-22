@@ -16,7 +16,17 @@ import {
   SeverFlotImage,
   StigmataImage,
   WildWaysImage,
-  OrigamiImage
+  OrigamiImage,
+  AmatoryImageWebp,
+  AnacondazImageWebp,
+  LounaImageWebp,
+  PornoFilmyImageWebp,
+  PsikheaImageWebp,
+  SlotImageWebp,
+  SeverFlotImageWebp,
+  StigmataImageWebp,
+  WildWaysImageWebp,
+  OrigamiImageWebp
 } from '../../assets';
 
 // дописать бекенд
@@ -50,7 +60,7 @@ const lotteries = [
     bandName: 'Северный Флот',
     concertDate: '2024-02-05',
     imageUrl: SeverFlotImage,
-    webpImageUrl: SeverFlotImage,
+    webpImageUrl: SeverFlotImageWebp,
     ticketPrice: 2800,
   },
   {
@@ -58,7 +68,7 @@ const lotteries = [
     bandName: 'Stigmata',
     concertDate: '2024-02-12',
     imageUrl: StigmataImage,
-    webpImageUrl: StigmataImage,
+    webpImageUrl: StigmataImageWebp,
     ticketPrice: 2300,
   },
   {
@@ -66,7 +76,7 @@ const lotteries = [
     bandName: 'Amatory',
     concertDate: '2024-02-19',
     imageUrl: AmatoryImage,
-    webpImageUrl: AmatoryImage,
+    webpImageUrl: AmatoryImageWebp,
     ticketPrice: 2600,
   },
   {
@@ -74,7 +84,7 @@ const lotteries = [
     bandName: 'Психея',
     concertDate: '2024-02-26',
     imageUrl: PsikheaImage,
-    webpImageUrl: PsikheaImage,
+    webpImageUrl: PsikheaImageWebp,
     ticketPrice: 2100,
   },
   {
@@ -82,7 +92,7 @@ const lotteries = [
     bandName: 'Слот',
     concertDate: '2024-03-04',
     imageUrl: SlotImage,
-    webpImageUrl: SlotImage,
+    webpImageUrl: SlotImageWebp,
     ticketPrice: 2400,
   },
   {
@@ -90,7 +100,7 @@ const lotteries = [
     bandName: 'Louna',
     concertDate: '2024-03-11',
     imageUrl: LounaImage,
-    webpImageUrl: LounaImage,
+    webpImageUrl: LounaImageWebp,
     ticketPrice: 2700,
   },
   {
@@ -98,7 +108,7 @@ const lotteries = [
     bandName: 'Порнофильмы',
     concertDate: '2024-03-18',
     imageUrl: PornoFilmyImage,
-    webpImageUrl: PornoFilmyImage,
+    webpImageUrl: PornoFilmyImageWebp,
     ticketPrice: 2200,
   },
   {
@@ -106,7 +116,7 @@ const lotteries = [
     bandName: 'Anacondaz',
     concertDate: '2024-03-25',
     imageUrl: AnacondazImage,
-    webpImageUrl: AnacondazImage,
+    webpImageUrl: AnacondazImageWebp,
     ticketPrice: 2500,
   },
   {
@@ -114,7 +124,7 @@ const lotteries = [
     bandName: 'Wildways',
     concertDate: '2024-04-01',
     imageUrl: WildWaysImage,
-    webpImageUrl: WildWaysImage,
+    webpImageUrl: WildWaysImageWebp,
     ticketPrice: 2300,
   },
   {
@@ -122,7 +132,7 @@ const lotteries = [
     bandName: 'Origami',
     concertDate: '2024-04-08',
     imageUrl: OrigamiImage,
-    webpImageUrl: OrigamiImage,
+    webpImageUrl: OrigamiImageWebp,
     ticketPrice: 2100,
   }
 ];
@@ -134,7 +144,7 @@ const LotteryGrid: FC = () => {
         <LotteryCard
           key={lottery.id}
           {...lottery}
-          priority={index < 2} // Приоритетная загрузка первых двух изображений
+          priority={index < 3} // Приоритетная загрузка первых трёх изображений
         />
       ))}
     </div>
