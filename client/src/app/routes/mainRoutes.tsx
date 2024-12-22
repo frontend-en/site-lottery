@@ -1,37 +1,77 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import App from '../App';
-import { AsyncImportWrapper } from '../../features';
-import { AnimatedPage } from '../../components';
 import { LoadingPage } from '../../shared/UI';
+
+// Ленивая загрузка компонентов
+const AnimatedPage = lazy(() => 
+  import('../../components').then(module => ({ default: module.AnimatedPage }))
+);
 
 // Предзагрузка основных страниц с приоритетами
 const pageImports = {
-  home: () => import('../../pages/HomePage' /* webpackChunkName: "home-page" */),
-  signIn: () => import('../../pages/SignInPage' /* webpackChunkName: "auth-page" */),
-  signUp: () => import('../../pages/SignUpPage' /* webpackChunkName: "auth-page" */),
-  lotteries: () => import('../../pages/LotteriesPage' /* webpackChunkName: "lotteries-page" */),
-  prizes: () => import('../../pages/PrizesPage' /* webpackChunkName: "prizes-page" */),
-  settings: () => import('../../pages/SettingsPage' /* webpackChunkName: "settings-page" */)
+  home: lazy(() => 
+    import('../../pages/HomePage' /* webpackChunkName: "home-page" */)
+      .then(module => ({ default: module.default }))
+  ),
+  signIn: lazy(() => 
+    import('../../pages/SignInPage' /* webpackChunkName: "auth-page" */)
+      .then(module => ({ default: module.default }))
+  ),
+  signUp: lazy(() => 
+    import('../../pages/SignUpPage' /* webpackChunkName: "auth-page" */)
+      .then(module => ({ default: module.default }))
+  ),
+  lotteries: lazy(() => 
+    import('../../pages/LotteriesPage' /* webpackChunkName: "lotteries-page" */)
+      .then(module => ({ default: module.default }))
+  ),
+  prizes: lazy(() => 
+    import('../../pages/PrizesPage' /* webpackChunkName: "prizes-page" */)
+      .then(module => ({ default: module.default }))
+  ),
+  settings: lazy(() => 
+    import('../../pages/SettingsPage' /* webpackChunkName: "settings-page" */)
+      .then(module => ({ default: module.default }))
+  )
 };
 
 // Предварительная загрузка критических страниц
-if (typeof requestIdleCallback === 'function') {
+if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
   requestIdleCallback(() => {
     // Высокий приоритет
-    pageImports.home();
-    pageImports.lotteries();
-    
+    const prefetchHighPriority = () => {
+      const links = ['home', 'lotteries'].map(page => 
+        import(`../../pages/${page}Page`)
+      );
+      return Promise.all(links);
+    };
+
     // Средний приоритет
-    setTimeout(() => {
-      pageImports.signIn();
-      pageImports.prizes();
-    }, 3000);
-    
+    const prefetchMediumPriority = () => {
+      const links = ['signIn', 'prizes'].map(page => 
+        import(`../../pages/${page}Page`)
+      );
+      return Promise.all(links);
+    };
+
     // Низкий приоритет
-    setTimeout(() => {
-      pageImports.signUp();
-      pageImports.settings();
-    }, 5000);
+    const prefetchLowPriority = () => {
+      const links = ['signUp', 'settings'].map(page => 
+        import(`../../pages/${page}Page`)
+      );
+      return Promise.all(links);
+    };
+
+    // Выполняем предзагрузку с учетом приоритетов
+    prefetchHighPriority()
+      .then(() => new Promise(resolve => setTimeout(resolve, 3000)))
+      .then(prefetchMediumPriority)
+      .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+      .then(prefetchLowPriority)
+      .catch(() => {
+        // Игнорируем ошибки предзагрузки
+      });
   });
 }
 
@@ -45,64 +85,58 @@ export const MainRoutes = createBrowserRouter(
         {
           index: true,
           element: (
-              <AsyncImportWrapper
-                importFunc={pageImports.home}
-                fallback={<LoadingPage title="Загрузка HomePage..." />}
-              />
+            <Suspense fallback={<LoadingPage title="Загрузка HomePage..." />}>
+              <pageImports.home />
+            </Suspense>
           ),
         },
         {
           path: 'sign-in',
           element: (
-            <AnimatedPage>
-              <AsyncImportWrapper
-                importFunc={pageImports.signIn}
-                fallback={<LoadingPage title="Загрузка SignInPage..." />}
-              />
-            </AnimatedPage>
+            <Suspense fallback={<LoadingPage title="Загрузка SignInPage..." />}>
+              <AnimatedPage>
+                <pageImports.signIn />
+              </AnimatedPage>
+            </Suspense>
           ),
         },
         {
           path: 'sign-up',
           element: (
-            <AnimatedPage>
-              <AsyncImportWrapper
-                importFunc={pageImports.signUp}
-                fallback={<LoadingPage title="Загрузка SignUpPage..." />}
-              />
-            </AnimatedPage>
+            <Suspense fallback={<LoadingPage title="Загрузка SignUpPage..." />}>
+              <AnimatedPage>
+                <pageImports.signUp />
+              </AnimatedPage>
+            </Suspense>
           ),
         },
         {
           path: 'lotteries',
           element: (
-              <AsyncImportWrapper
-                importFunc={pageImports.lotteries}
-                fallback={<LoadingPage title="Загрузка LotteriesPage..." />}
-              />
+            <Suspense fallback={<LoadingPage title="Загрузка LotteriesPage..." />}>
+              <pageImports.lotteries />
+            </Suspense>
           ),
         },
         {
           path: 'prizes',
           element: (
-              <AsyncImportWrapper
-                importFunc={pageImports.prizes}
-                fallback={<LoadingPage title="Загрузка призов..." />}
-              />
+            <Suspense fallback={<LoadingPage title="Загрузка призов..." />}>
+              <pageImports.prizes />
+            </Suspense>
           ),
         },
         {
           path: 'settings',
           element: (
-              <AsyncImportWrapper
-                importFunc={pageImports.settings}
-                fallback={<LoadingPage title="Загрузка настроек..." />}
-              />
+            <Suspense fallback={<LoadingPage title="Загрузка настроек..." />}>
+              <pageImports.settings />
+            </Suspense>
           ),
         },
         {
           path: 'loading',
-          element: <LoadingPage title="Загрузка настроек..." />,
+          element: <LoadingPage title="Загрузка..." />,
         }
       ],
     },
@@ -113,7 +147,6 @@ export const MainRoutes = createBrowserRouter(
       v7_relativeSplatPath: true,
       v7_normalizeFormMethod: true,
       v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true,
-    } as any,
+    },
   }
 );
