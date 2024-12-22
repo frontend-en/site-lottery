@@ -91,6 +91,85 @@
 
 ---
 
+## **Установка и Запуск**
+
+### **Требования**
+- Node.js >= 18
+- PostgreSQL >= 14
+- Git
+
+### **Установка**
+
+1. **Клонирование репозитория**
+```bash
+git clone https://github.com/frontend-en/site-lottery.git
+cd site-lottery
+```
+
+2. **Установка зависимостей**
+```bash
+# Установка зависимостей сервера
+cd server
+npm install
+
+# Установка зависимостей клиента
+cd ../client
+npm install
+```
+
+3. **Настройка окружения**
+
+Создайте файл `.env` в папке `server` со следующими параметрами:
+```env
+PORT=5000
+DATABASE_URL=postgresql://user:password@localhost:5432/lottery_db
+JWT_SECRET=your_jwt_secret
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USER=your@email.com
+EMAIL_PASS=your_password
+BASE_URL=http://localhost:3000
+```
+
+4. **Создание базы данных**
+```bash
+# В PostgreSQL
+createdb lottery_db
+```
+
+### **Запуск**
+
+1. **Запуск сервера**
+```bash
+cd server
+npm run dev
+```
+
+2. **Запуск клиента**
+```bash
+cd client
+npm run dev
+```
+
+Приложение будет доступно по адресу: http://localhost:5173
+API сервер будет доступен по адресу: http://localhost:5000
+
+### **Сборка для продакшена**
+
+1. **Сборка клиента**
+```bash
+cd client
+npm run build
+```
+
+2. **Сборка сервера**
+```bash
+cd server
+npm run build
+```
+
+---
+
 ## **Пример использования**
 
 ### Регистрация пользователя
