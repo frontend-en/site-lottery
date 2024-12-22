@@ -6,7 +6,17 @@ import {
   PTAImage,
   DMImageWebp,
   AXImageWebp,
-  PTAImageWebp
+  PTAImageWebp,
+  AmatoryImage,
+  AnacondazImage,
+  LounaImage,
+  PornoFilmyImage,
+  PsikheaImage,
+  SlotImage,
+  SeverFlotImage,
+  StigmataImage,
+  WildWaysImage,
+  OrigamiImage
 } from '../../assets';
 
 // дописать бекенд
@@ -35,6 +45,86 @@ const lotteries = [
     webpImageUrl: PTAImageWebp,
     ticketPrice: 2200,
   },
+  {
+    id: '4',
+    bandName: 'Северный Флот',
+    concertDate: '2024-02-05',
+    imageUrl: SeverFlotImage,
+    webpImageUrl: SeverFlotImage,
+    ticketPrice: 2800,
+  },
+  {
+    id: '5',
+    bandName: 'Stigmata',
+    concertDate: '2024-02-12',
+    imageUrl: StigmataImage,
+    webpImageUrl: StigmataImage,
+    ticketPrice: 2300,
+  },
+  {
+    id: '6',
+    bandName: 'Amatory',
+    concertDate: '2024-02-19',
+    imageUrl: AmatoryImage,
+    webpImageUrl: AmatoryImage,
+    ticketPrice: 2600,
+  },
+  {
+    id: '7',
+    bandName: 'Психея',
+    concertDate: '2024-02-26',
+    imageUrl: PsikheaImage,
+    webpImageUrl: PsikheaImage,
+    ticketPrice: 2100,
+  },
+  {
+    id: '8',
+    bandName: 'Слот',
+    concertDate: '2024-03-04',
+    imageUrl: SlotImage,
+    webpImageUrl: SlotImage,
+    ticketPrice: 2400,
+  },
+  {
+    id: '9',
+    bandName: 'Louna',
+    concertDate: '2024-03-11',
+    imageUrl: LounaImage,
+    webpImageUrl: LounaImage,
+    ticketPrice: 2700,
+  },
+  {
+    id: '10',
+    bandName: 'Порнофильмы',
+    concertDate: '2024-03-18',
+    imageUrl: PornoFilmyImage,
+    webpImageUrl: PornoFilmyImage,
+    ticketPrice: 2200,
+  },
+  {
+    id: '11',
+    bandName: 'Anacondaz',
+    concertDate: '2024-03-25',
+    imageUrl: AnacondazImage,
+    webpImageUrl: AnacondazImage,
+    ticketPrice: 2500,
+  },
+  {
+    id: '12',
+    bandName: 'Wildways',
+    concertDate: '2024-04-01',
+    imageUrl: WildWaysImage,
+    webpImageUrl: WildWaysImage,
+    ticketPrice: 2300,
+  },
+  {
+    id: '13',
+    bandName: 'Origami',
+    concertDate: '2024-04-08',
+    imageUrl: OrigamiImage,
+    webpImageUrl: OrigamiImage,
+    ticketPrice: 2100,
+  }
 ];
 
 const LotteryGrid: FC = () => {
