@@ -34,14 +34,14 @@ const fails = [
 
 export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName }) => {
   const [spinSpeed, setSpinSpeed] = useState<SpinSpeed>('NONE');
-  const [finalResult, setFinalResult] = useState<string>('');
+  const [finalResult, setFinalResult] = useState<{ item: string; promo?: string } | null>(null);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
       setSpinSpeed('NONE');
       setShowResult(false);
-      setFinalResult('');
+      setFinalResult(null);
     }
   }, [isOpen]);
 
@@ -62,9 +62,47 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
     }, WHEEL_ANIMATION_DURATION.TOTAL);
   };
 
-  const handleResult = useCallback((result: string) => {
+  const handleResult = useCallback((result: { item: string; promo?: string }) => {
     setFinalResult(result);
   }, []);
+
+  const renderResult = () => {
+    if (!showResult || !finalResult) return null;
+
+    const isWinner = prizes.includes(finalResult.item);
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center bg-base-200 p-6 rounded-lg shadow-lg w-full max-w-md mx-auto"
+      >
+        <h3 className="text-xl font-bold mb-4">
+          {isWinner ? 'Поздравляем!' : 'Не расстраивайся!'}
+        </h3>
+        <p className={`text-lg font-medium mb-4 ${isWinner ? 'text-success' : ''}`}>
+          {finalResult.item}
+        </p>
+        {finalResult.promo && (
+          <div>
+            <p className="text-base mb-2">Ваш промокод:</p>
+            <p className="bg-base-300 p-2 rounded-md font-mono text-lg mb-4">
+              {finalResult.promo}
+            </p>
+            <p className="text-sm mb-4">
+              Покажите этот экран при покупке билета на концерт {bandName}
+            </p>
+          </div>
+        )}
+        <Button
+          className="btn btn-primary w-full"
+          onClick={onClose}
+        >
+          Закрыть
+        </Button>
+      </motion.div>
+    );
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -79,7 +117,7 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
           <p className="text-lg mt-2 text-base-content/80">{bandName}</p>
         </div>
         
-        <div className="flex-1 w-full overflow-hidden">
+        <div className="flex-1 w-full overflow-hidden overflow-y-auto custom-scrollbar pointer-events-none">
           <LotteryWheel
             items={items}
             spinSpeed={spinSpeed}
@@ -97,31 +135,7 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
           </Button>
         )}
 
-        {showResult && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center bg-base-200 p-6 rounded-lg shadow-lg w-full max-w-md mx-auto"
-          >
-            <h3 className="text-xl font-bold mb-4">
-              {prizes.includes(finalResult) ? 'Поздравляем!' : 'Не расстраивайся!'}
-            </h3>
-            <p className={`text-lg font-medium mb-4 ${prizes.includes(finalResult) ? 'text-success' : ''}`}>
-              {finalResult}
-            </p>
-            {prizes.includes(finalResult) && (
-              <p className="text-sm mb-4">
-                Покажите этот экран при покупке билета на концерт {bandName}
-              </p>
-            )}
-            <Button
-              className="btn btn-primary w-full"
-              onClick={onClose}
-            >
-              Закрыть
-            </Button>
-          </motion.div>
-        )}
+        {renderResult()}
       </motion.div>
     </Modal>
   );

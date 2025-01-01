@@ -5,6 +5,7 @@ import MainRoutes from './app/routes/mainRoutes';
 import { store } from './store/store';
 
 import './styles/index.css';
+import './styles/scrollbar.css';
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>

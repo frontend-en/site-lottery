@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useCallback } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { SpinSpeed } from './consts';
 
@@ -10,7 +10,7 @@ interface LotteryWheelProps {
     isWinner: boolean;
   }>;
   spinSpeed: SpinSpeed;
-  onResult?: (result: string) => void;
+  onResult?: (result: { item: string; promo?: string }) => void;
 }
 
 const glow = keyframes`
@@ -41,9 +41,10 @@ const Container = styled.div`
 const Grid = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.2rem;
   place-items: center;
+  overflow-y: auto;
   
   @media (min-width: 640px) {
     gap: 0.75rem;
@@ -77,78 +78,47 @@ const Card = styled.div<{ $isHighlighted: boolean; $isWinner: boolean }>`
   `}
 `;
 
-const ResultContainer = styled.div`
-  text-align: center;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  margin-top: 1rem;
-  width: 100%;
-`;
-
-const ResultTitle = styled.h3`
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-success);
-`;
-
-const PromoCode = styled.div`
-  font-family: monospace;
-  font-size: 1rem;
-  padding: 0.5rem;
-  background: var(--color-base-200);
-  border-radius: 4px;
-  display: inline-block;
-  margin-top: 0.5rem;
-`;
-
 export const LotteryWheel: FC<LotteryWheelProps> = ({ items, spinSpeed, onResult }) => {
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [winningItem, setWinningItem] = useState<typeof items[0] | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const startAnimation = useCallback(() => {
-    if (isAnimating) return;
-    
-    setIsAnimating(true);
-    setWinningItem(null);
-
-    let lastIndex = -1;
-    const animationDuration = 5000;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const currentTime = Date.now();
-      const elapsed = currentTime - startTime;
-      
-      if (elapsed < animationDuration) {
-        let newIndex;
-        do {
-          newIndex = Math.floor(Math.random() * items.length);
-        } while (newIndex === lastIndex);
-        
-        lastIndex = newIndex;
-        setHighlightedIndex(newIndex);
-        
-        const speed = Math.max(50, 200 * (1 - elapsed / animationDuration));
-        setTimeout(() => requestAnimationFrame(animate), speed);
-      } else {
-        const winner = items.find(item => item.isWinner);
-        setHighlightedIndex(winner?.index || 0);
-        setWinningItem(winner || null);
-        setIsAnimating(false);
-        onResult?.(winner?.item || items[0].item);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [items, isAnimating, onResult]);
+  const [startAnimation, setStartAnimation] = useState(false);
 
   useEffect(() => {
-    if (spinSpeed !== 'NONE') {
-      startAnimation();
+    if (spinSpeed === 'FAST') {
+      setStartAnimation(true);
+      setWinningItem(null);
     }
-  }, [spinSpeed, startAnimation]);
+  }, [spinSpeed]);
+
+  useEffect(() => {
+    if (!startAnimation) return;
+
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      setHighlightedIndex(currentIndex);
+      currentIndex = (currentIndex + 1) % items.length;
+    }, 100);
+
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+      const winner = items.find(item => item.isWinner) || items[Math.floor(Math.random() * items.length)];
+      setHighlightedIndex(winner.index);
+      setWinningItem(winner);
+      
+      const result = {
+        item: winner.item,
+        ...(winner.isWinner && { promo: `PROMO-${Math.random().toString(36).substring(2, 8).toUpperCase()}` })
+      };
+      
+      onResult?.(result);
+      setStartAnimation(false);
+    }, 5000 - 100);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [items, onResult, startAnimation]);
 
   return (
     <Container>
@@ -163,14 +133,6 @@ export const LotteryWheel: FC<LotteryWheelProps> = ({ items, spinSpeed, onResult
           </Card>
         ))}
       </Grid>
-
-      {winningItem && (
-        <ResultContainer>
-          <ResultTitle>Поздравляем!</ResultTitle>
-          <div>Вы выиграли: {winningItem.item}</div>
-          <PromoCode>PROMO-{Math.random().toString(36).substring(2, 8).toUpperCase()}</PromoCode>
-        </ResultContainer>
-      )}
     </Container>
   );
 };

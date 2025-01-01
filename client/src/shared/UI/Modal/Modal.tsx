@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ModalProps {
@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-base-100 rounded-lg p-6 max-w-[500px] w-full text-center"
+            className="bg-base-100 rounded-lg p-6 max-w-[800px] w-full text-center"
             onClick={e => e.stopPropagation()}
           >
             {children}

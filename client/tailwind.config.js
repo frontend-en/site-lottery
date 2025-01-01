@@ -1072,7 +1072,11 @@ module.exports = {
       50: '50',
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('daisyui'),
+    require('tailwind-scrollbar')
+  ],
   daisyui: {
     themes: [
       'light',
