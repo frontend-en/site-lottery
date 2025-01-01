@@ -6,14 +6,18 @@ import ErrorMessage from "./UI/ErrorMessage";
 import FormControl from "./UI/FormControl";
 import Input from "./UI/Input";
 import ProgressBar from "./UI/ProgressBar";
+import { Modal } from "./UI/Modal";
+import { LotteryWheel } from "./UI/LotteryWheel";
 
 export {
   useAsyncImport,
   Button,
   Card,
+  Checkbox,
   ErrorMessage,
   FormControl,
   Input,
-  Checkbox,
   ProgressBar,
-}
+  Modal,
+  LotteryWheel,
+};
