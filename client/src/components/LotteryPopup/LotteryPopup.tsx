@@ -117,7 +117,7 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
           <p className="text-lg mt-2 text-base-content/80">{bandName}</p>
         </div>
         
-        <div className="flex-1 w-full overflow-hidden overflow-y-auto custom-scrollbar pointer-events-none">
+        <div className="flex-1 w-full">
           <LotteryWheel
             items={items}
             spinSpeed={spinSpeed}
