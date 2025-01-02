@@ -8,7 +8,7 @@ const Header: FC = () => {
       <div className='flex items-center justify-between 2xl:max-w-[1440px] xl:max-w-[1024px] mx-auto w-full'>
         <div className="grow">
           <Link to="/" className="btn btn-ghost normal-case text-xl">
-            Удачная Касса 🎉
+            HitTheTicket 🎉
           </Link>
         </div>
         <div className="flex items-center">

@@ -1,8 +1,11 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Modal } from '../../shared/UI/Modal';
-import { LotteryWheel, WHEEL_ANIMATION_DURATION, SpinSpeed, WIN_PROBABILITY } from '../../shared/UI/LotteryWheel';
+import { LotteryWheel, WHEEL_ANIMATION_DURATION, SpinSpeed } from '../../shared/UI/LotteryWheel';
+import { spinTracker } from '../../shared/UI/LotteryWheel/services/spinTracker';
 import { Button } from '../../shared';
+import { PRIZES, FAILS } from './constants';
+import { ResultDisplay } from './components/ResultDisplay';
 
 interface LotteryPopupProps {
   isOpen: boolean;
@@ -10,99 +13,78 @@ interface LotteryPopupProps {
   bandName: string;
 }
 
-const prizes = [
-  'Скидка 10% на билет',
-  'Скидка 15% на билет',
-  'Скидка 20% на билет',
-  'Бесплатный напиток на концерте',
-  'VIP-место на концерте',
-  'Meet&Greet с группой',
-  'Эксклюзивный мерч',
-  'Автограф-сессия',
-];
+interface LotteryResult {
+  item: string;
+  promo?: string;
+}
 
-const fails = [
-  'Может в следующий раз повезёт!',
-  'Удача любит настойчивых',
-  'Ты был близок!',
-  'Попробуй ещё разок',
-  'Почти получилось!',
-  'В следующий раз точно повезёт',
-  'Не отчаивайся, крути снова',
-  'Музыка всё равно с тобой',
-];
-
+/**
+ * Компонент всплывающего окна с лотереей
+ */
 export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName }) => {
+  // Состояние скорости вращения колеса
   const [spinSpeed, setSpinSpeed] = useState<SpinSpeed>('NONE');
-  const [finalResult, setFinalResult] = useState<{ item: string; promo?: string } | null>(null);
+  // Результат вращения
+  const [result, setResult] = useState<LotteryResult | null>(null);
+  // Флаг отображения результата
   const [showResult, setShowResult] = useState(false);
+  // Флаг выигрышного вращения (каждое 25-е)
+  const [isWinningTurn, setIsWinningTurn] = useState(false);
+
+  // Сброс состояния при закрытии окна
+  const resetState = useCallback(() => {
+    setSpinSpeed('NONE');
+    setShowResult(false);
+    setResult(null);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
-      setSpinSpeed('NONE');
-      setShowResult(false);
-      setFinalResult(null);
+      resetState();
     }
-  }, [isOpen]);
+  }, [isOpen, resetState]);
 
-  const items = [...prizes, ...fails].map((item, index) => ({
-    id: index.toString(),
-    item,
-    index,
-    isWinner: prizes.includes(item) && Math.random() < WIN_PROBABILITY,
-  }));
+  // Получить случайное сообщение о неудаче
+  const getRandomFail = () => {
+    const randomIndex = Math.floor(Math.random() * FAILS.length);
 
-  const handleSpin = () => {
+    return FAILS[randomIndex];
+  };
+
+  // Формируем элементы колеса
+  const items = Array.from({ length: 16 }, (_, index) => {
+    // Если это выигрышное вращение и элемент в первых 8 позициях - это приз
+    const isWinner = isWinningTurn && index < PRIZES.length;
+    const item = isWinner ? PRIZES[index] : getRandomFail();
+
+    return {
+      id: index.toString(),
+      item,
+      index,
+      isWinner,
+    };
+  });
+
+  // Обработчик нажатия на кнопку вращения
+  const handleSpin = useCallback(() => {
+    // Проверяем, является ли это вращение выигрышным (каждое 25-е)
+    const isWinning = spinTracker.spin();
+
+    setIsWinningTurn(isWinning);
     setSpinSpeed('FAST');
     setShowResult(false);
-    
+
+    // Останавливаем вращение через заданное время
     setTimeout(() => {
       setSpinSpeed('NONE');
       setShowResult(true);
     }, WHEEL_ANIMATION_DURATION.TOTAL);
-  };
-
-  const handleResult = useCallback((result: { item: string; promo?: string }) => {
-    setFinalResult(result);
   }, []);
 
-  const renderResult = () => {
-    if (!showResult || !finalResult) return null;
-
-    const isWinner = prizes.includes(finalResult.item);
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center bg-base-200 p-6 rounded-lg shadow-lg w-full max-w-md mx-auto"
-      >
-        <h3 className="text-xl font-bold mb-4">
-          {isWinner ? 'Поздравляем!' : 'Не расстраивайся!'}
-        </h3>
-        <p className={`text-lg font-medium mb-4 ${isWinner ? 'text-success' : ''}`}>
-          {finalResult.item}
-        </p>
-        {finalResult.promo && (
-          <div>
-            <p className="text-base mb-2">Ваш промокод:</p>
-            <p className="bg-base-300 p-2 rounded-md font-mono text-lg mb-4">
-              {finalResult.promo}
-            </p>
-            <p className="text-sm mb-4">
-              Покажите этот экран при покупке билета на концерт {bandName}
-            </p>
-          </div>
-        )}
-        <Button
-          className="btn btn-primary w-full"
-          onClick={onClose}
-        >
-          Закрыть
-        </Button>
-      </motion.div>
-    );
-  };
+  // Обработчик получения результата от колеса
+  const handleResult = useCallback((newResult: LotteryResult) => {
+    setResult(newResult);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -116,7 +98,7 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
           <h2 className="text-2xl font-bold">Испытайте удачу!</h2>
           <p className="text-lg mt-2 text-base-content/80">{bandName}</p>
         </div>
-        
+
         <div className="flex-1 w-full">
           <LotteryWheel
             items={items}
@@ -135,7 +117,13 @@ export const LotteryPopup: FC<LotteryPopupProps> = ({ isOpen, onClose, bandName 
           </Button>
         )}
 
-        {renderResult()}
+        {showResult && result && (
+          <ResultDisplay
+            result={result}
+            bandName={bandName}
+            onClose={onClose}
+          />
+        )}
       </motion.div>
     </Modal>
   );

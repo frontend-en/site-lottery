@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import styled from 'styled-components';
 import React from 'react';
 
@@ -6,6 +6,7 @@ interface CardProps {
   $isHighlighted?: boolean;
   $isAnimating?: boolean;
   $isWinner?: boolean;
+  children?: React.ReactNode;
 }
 
 const StyledCard = styled(motion.div)<CardProps>`
@@ -26,7 +27,12 @@ const StyledCard = styled(motion.div)<CardProps>`
   word-break: break-word;
 `;
 
-const festiveColors = [
+interface FestiveColor {
+  background: string;
+  glow: string;
+}
+
+const festiveColors: FestiveColor[] = [
   {
     background: 'hsl(48, 96%, 53%)',  // Yellow
     glow: 'rgba(255, 215, 0, 0.6)'
@@ -49,7 +55,7 @@ const festiveColors = [
   }
 ];
 
-export const Card = ({ children, ...props }: CardProps & { children: React.ReactNode }) => {
+export const Card: React.FC<CardProps> = ({ children, ...props }) => {
   // Shuffle the colors array
   const shuffledColors = React.useMemo(() => {
     return [...festiveColors]
@@ -57,11 +63,7 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
       .slice(0, 3); // Take 3 random colors
   }, []);
 
-  const [highlightColor] = React.useState(() => 
-    festiveColors[Math.floor(Math.random() * festiveColors.length)]
-  );
-
-  const variants = {
+  const variants: Variants = {
     normal: {
       scale: 1,
       background: 'hsl(var(--b2))',
@@ -85,27 +87,27 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
         background: {
           repeat: Infinity,
           duration: 1.5,
-          ease: "easeInOut"
+          ease: 'easeInOut'
         },
         textShadow: {
           repeat: Infinity,
           duration: 1.5,
-          ease: "easeInOut"
+          ease: 'easeInOut'
         },
         boxShadow: {
           repeat: Infinity,
           duration: 1.5,
-          ease: "easeInOut"
+          ease: 'easeInOut'
         },
         rotate: {
           repeat: Infinity,
-          repeatType: "reverse" as const,
+          repeatType: 'reverse',
           duration: 0.8,
-          ease: "easeInOut"
+          ease: 'easeInOut'
         },
         scale: {
           duration: 0.3,
-          ease: "backOut"
+          ease: 'backOut'
         }
       }
     },
@@ -123,7 +125,7 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
         rotate: {
           duration: 0.5,
           repeat: 3,
-          ease: "easeInOut"
+          ease: 'easeInOut'
         }
       }
     },
@@ -132,9 +134,9 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
       rotate: [-1, 1, -1],
       transition: {
         repeat: Infinity,
-        repeatType: "reverse" as const,
+        repeatType: 'reverse',
         duration: 0.8,
-        ease: "easeInOut"
+        ease: 'easeInOut'
       },
     },
   };
@@ -143,6 +145,7 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
     if (props.$isWinner) return 'winner';
     if (props.$isHighlighted) return 'highlighted';
     if (props.$isAnimating) return 'animating';
+
     return 'normal';
   };
 
@@ -151,7 +154,7 @@ export const Card = ({ children, ...props }: CardProps & { children: React.React
       variants={variants}
       animate={getAnimationState()}
       transition={{ 
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 20
       }}

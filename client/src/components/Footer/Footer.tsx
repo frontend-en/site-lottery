@@ -5,7 +5,7 @@ const Footer: FC = () => {
     <footer className="footer items-center p-4 bg-neutral text-neutral-content ">
       <div className='flex items-center justify-between 2xl:max-w-[1440px] xl:max-w-[1024px] mx-auto w-full'>
         <div className="">
-          <p>© 2025 Удачная Касса 🎉. Все права защищены.</p>
+          <p> 2025 HitTheTicket .</p>
         </div>
         <div className="">
           <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">

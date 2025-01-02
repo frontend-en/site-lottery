@@ -44,6 +44,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       const links = ['home', 'lotteries'].map(page => 
         import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
+
       return Promise.all(links);
     };
 
@@ -52,6 +53,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       const links = ['signIn', 'prizes'].map(page => 
         import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
+
       return Promise.all(links);
     };
 
@@ -60,6 +62,7 @@ if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       const links = ['signUp', 'settings'].map(page => 
         import(/* @vite-ignore */ `../../pages/${page}Page`)
       );
+
       return Promise.all(links);
     };
 

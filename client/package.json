@@ -1,5 +1,5 @@
 {
-  "name": "successful sales register",
+  "name": "hit-the-ticket",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "format": "prettier --write ./**/*.{js,jsx,ts,tsx,css,md,json} --config .prettierrc",
     "convert-images": "node scripts/convertToWebp.js"

@@ -11,6 +11,7 @@ const checkWebpSupport = async (): Promise<boolean> => {
 
   try {
     const webP = new Image();
+
     webP.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
     
     const result = await new Promise<boolean>((resolve) => {
@@ -19,10 +20,12 @@ const checkWebpSupport = async (): Promise<boolean> => {
     });
 
     webpSupportCache = result;
+
     return result;
   } catch (error) {
     console.error('Error checking WebP support:', error);
     webpSupportCache = false;
+
     return false;
   }
 };

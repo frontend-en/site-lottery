@@ -58,6 +58,7 @@ export default defineConfig({
             if (id.includes('clsx') || id.includes('tailwindcss')) {
               return 'utils';
             }
+
             return 'vendor';
           }
         },
