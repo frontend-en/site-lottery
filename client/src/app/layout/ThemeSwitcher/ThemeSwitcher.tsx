@@ -7,15 +7,10 @@ const ThemeSwitcher: FC = () => {
 
   useEffect(() => {
     themeChange(false);
-    // Get initial theme
-    const htmlElement = document.documentElement;
-    const theme = htmlElement.getAttribute('data-theme') || 'night';
+    // Получаем текущую тему
+    const theme = document.documentElement.getAttribute('data-theme') || 'night';
     setCurrentTheme(theme);
   }, []);
-
-  const handleThemeChange = (theme: string) => {
-    setCurrentTheme(theme);
-  };
 
   return (
     <div className="dropdown drop-shadow-xl">
@@ -38,16 +33,14 @@ const ThemeSwitcher: FC = () => {
       >
         {themes.map((theme) => (
           <li key={theme.id}>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label={theme.label}
-              value={theme.value}
+            <button 
+              className={`theme-controller btn btn-sm btn-block btn-ghost justify-start ${currentTheme === theme.value ? 'btn-active' : ''}`}
               data-set-theme={theme.value}
-              checked={currentTheme === theme.value}
-              onChange={() => handleThemeChange(theme.value)}
-            />
+              data-act-class="btn-active"
+              onClick={() => setCurrentTheme(theme.value)}
+            >
+              {theme.label}
+            </button>
           </li>
         ))}
       </ul>

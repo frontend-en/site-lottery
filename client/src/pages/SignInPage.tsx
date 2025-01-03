@@ -1,11 +1,18 @@
-import React from 'react';
+import { FC, lazy } from 'react';
 import { Layout } from '../app/layout';
 import AuthForm from '../features/auth/AuthForm/AuthForm';
 
-const SignInPage: React.FC = () => {
+// Ленивая загрузка компонентов
+const AnimatedPage = lazy(() =>
+  import('../app/providers/router/AnimatedPage').then(module => ({ default: module.default }))
+);
+
+const SignInPage: FC = () => {
   return (
     <Layout sidebar={false}>
-      <AuthForm />
+      <AnimatedPage>
+        <AuthForm />
+      </AnimatedPage>
     </Layout>
   );
 };
