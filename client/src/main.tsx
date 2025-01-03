@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render(
     <RouterProvider
       router={MainRoutes}
       future={{
-        v7_startTransition: true,
+        v7_startTransition: true
       }}
     />
   </Provider>
