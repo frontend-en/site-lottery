@@ -5,7 +5,7 @@ import { LoadingPage } from '../../shared/UI';
 
 // Ленивая загрузка компонентов
 const AnimatedPage = lazy(() => 
-  import('../../components').then(module => ({ default: module.AnimatedPage }))
+  import('../providers/router/AnimatedPage').then(module => ({ default: module.default }))
 );
 
 // Предзагрузка основных страниц с приоритетами

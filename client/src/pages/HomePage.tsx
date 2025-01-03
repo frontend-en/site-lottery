@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Layout } from '../components';
-import { LotteryGrid } from '../components/LotteryCard';
+import { Layout } from '../app/layout';
+import { LotteryGrid } from '../widgets/LotteryCard';
 
 const HomePage: FC = () => {
   return (

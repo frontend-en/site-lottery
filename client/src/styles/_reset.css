@@ -88,3 +88,7 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+*:hover {
+  scrollbar-color: initial !important;
+}

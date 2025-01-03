@@ -1,5 +1,6 @@
 import React from 'react';
-import { AuthForm, Layout } from '../components';
+import { Layout } from '../app/layout';
+import AuthForm from '../features/auth/AuthForm/AuthForm';
 
 const SignInPage: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import { useState, FC, ChangeEvent, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { useLoginMutation } from '../../store/services/api/auth/authApi';
-import { Card, FormControl, Input, ErrorMessage, Button, Checkbox } from '../../shared';
+import { Card, FormControl, Input, ErrorMessage, Button, Checkbox } from '../../../shared';
+import { useLoginMutation } from '../../../store/services/api/auth/authApi';
 
 const AuthForm: FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });

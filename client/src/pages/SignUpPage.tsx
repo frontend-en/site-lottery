@@ -1,5 +1,6 @@
 import React from 'react';
-import { RegForm, Layout } from '../components';
+import { Layout } from '../app/layout';
+import RegForm from '../features/auth/RegForm/RegForm';
 
 const SignUpPage: React.FC = () => {
   return (

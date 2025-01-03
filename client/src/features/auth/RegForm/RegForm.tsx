@@ -1,6 +1,6 @@
 import { useState, FC } from 'react';
-import { useRegisterMutation } from '../../store/services/api/auth/authApi';
-import { Card, FormControl, Input, Button, ErrorMessage, ProgressBar } from '../../shared';
+import { useRegisterMutation } from '../../../store/services/api/auth/authApi';
+import { Card, FormControl, Input, Button, ErrorMessage, ProgressBar } from '../../../shared';
 import { handlePasswordStrength, handleValidation } from './lib';
 
 const RegForm: FC = () => {
