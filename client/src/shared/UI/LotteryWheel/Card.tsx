@@ -22,25 +22,109 @@ interface CardProps {
  * Использует styled-components и framer-motion для анимаций
  */
 const StyledCard = styled(motion.div)<CardProps>`
-  width: 100%;
+  min-width: 100%;
   aspect-ratio: 1;
   background: oklch(var(--b2));
   border: 1px solid oklch(var(--a));
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  border-radius: clamp(0.5rem, 2vw, 0.75rem);
+  padding: clamp(0.5rem, 1.5vw, 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   cursor: default;
   user-select: none;
-  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-size: 1rem;
+  line-height: 1.2;
   position: relative;
-  word-break: break-word;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 
+    0 4px 6px -1px oklch(var(--b1) / 0.1), 
+    0 2px 4px -2px oklch(var(--b1) / 0.1);
 
-  /* Градиент для выигрышной карточки */
+  /* Контейнер для текста */
+  & > * {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+
+  /* Адаптивные стили */
+  @media (max-width: 640px) {
+    font-size: 0.675rem;
+    line-height: 1.1;
+    min-height: 60px;
+    max-height: 60px;
+    max-width: 60px;
+    margin: 0 auto;
+    padding: 0.25rem;
+    border-radius: 0.375rem;
+
+    & > * {
+      -webkit-line-clamp: 3;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    min-height: 80px;
+    max-height: 80px;
+    max-width: 80px;
+    margin: 0 auto;
+    padding: 0.375rem;
+    border-radius: 0.5rem;
+
+    & > * {
+      -webkit-line-clamp: 4;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    min-height: 120px;
+    max-height: 120px;
+    max-width: 120px;
+    margin: 0 auto;
+
+    & > * {
+      -webkit-line-clamp: 5;
+    }
+  }
+
+  /* Hover эффекты */
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 
+        0 6px 8px -2px oklch(var(--b1) / 0.12), 
+        0 4px 6px -2px oklch(var(--b1) / 0.1);
+    }
+  }
+
+  /* Выигрышная карточка */
   &[data-winner="true"] {
-    background: linear-gradient(135deg, hsl(45, 100%, 55%) 0%, hsl(36, 100%, 45%) 100%);
+    background: linear-gradient(135deg, 
+      oklch(85% 0.2 80) 0%, 
+      oklch(75% 0.25 60) 50%, 
+      oklch(65% 0.3 40) 100%
+    );
+    border: none;
+    color: oklch(var(--b1));
+    text-shadow: 0 1px 2px oklch(0% 0 0 / 0.1);
+    box-shadow: 
+      0 0 20px oklch(85% 0.2 80 / 0.3),
+      0 10px 15px -3px oklch(0% 0 0 / 0.2),
+      0 4px 6px -4px oklch(0% 0 0 / 0.1);
+    
+    @media (max-width: 640px) {
+      box-shadow: 
+        0 0 15px oklch(85% 0.2 80 / 0.3),
+        0 8px 12px -3px oklch(0% 0 0 / 0.2);
+    }
   }
 `;
 
@@ -61,24 +145,24 @@ interface FestiveColor {
  */
 const festiveColors: FestiveColor[] = [
   {
-    background: 'hsl(48, 96%, 53%)',  // Желтый
-    glow: 'hsla(48, 96%, 53%, 0.6)'
+    background: 'oklch(80% 0.2 80)',  // Золотой
+    glow: 'oklch(80% 0.2 80 / 0.6)'
   },
   {
-    background: 'hsl(326, 85%, 65%)',  // Розовый
-    glow: 'hsla(326, 85%, 65%, 0.6)'
+    background: 'oklch(75% 0.25 330)',  // Розовый
+    glow: 'oklch(75% 0.25 330 / 0.6)'
   },
   {
-    background: 'hsl(169, 85%, 65%)',  // Бирюзовый
-    glow: 'hsla(169, 85%, 65%, 0.6)'
+    background: 'oklch(75% 0.2 200)',  // Бирюзовый
+    glow: 'oklch(75% 0.2 200 / 0.6)'
   },
   {
-    background: 'hsl(280, 85%, 65%)',  // Фиолетовый
-    glow: 'hsla(280, 85%, 65%, 0.6)'
+    background: 'oklch(70% 0.25 280)',  // Фиолетовый
+    glow: 'oklch(70% 0.25 280 / 0.6)'
   },
   {
-    background: 'hsl(15, 85%, 65%)',   // Коралловый
-    glow: 'hsla(15, 85%, 65%, 0.6)'
+    background: 'oklch(75% 0.25 30)',   // Коралловый
+    glow: 'oklch(75% 0.25 30 / 0.6)'
   }
 ];
 
@@ -111,12 +195,12 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => {
       backgroundColor: 'oklch(var(--b2))',
       color: 'oklch(var(--bc))', // Используем переменную цвета текста из темы
       textShadow: 'none',
-      boxShadow: 'none',
+      boxShadow: '0 4px 6px -1px oklch(var(--b1) / 0.1), 0 2px 4px -2px oklch(var(--b1) / 0.1)',
       fontWeight: 400,
       zIndex: 0,
     },
     highlighted: {
-      scale: 1.08,
+      scale: 1.05,
       backgroundColor: shuffledColors.map(c => c.background),
       color: 'oklch(var(--pc))', // Используем контрастный цвет для выделенного состояния
       textShadow: shuffledColors.map(c => `0 0 12px ${c.glow}`),
@@ -128,23 +212,23 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => {
         duration: 0.4,
         backgroundColor: {
           repeat: Infinity,
-          duration: 1.5,
+          duration: 2,
           ease: 'easeInOut'
         },
         textShadow: {
           repeat: Infinity,
-          duration: 1.5,
+          duration: 2,
           ease: 'easeInOut'
         },
         boxShadow: {
           repeat: Infinity,
-          duration: 1.5,
+          duration: 2,
           ease: 'easeInOut'
         },
         rotate: {
           repeat: Infinity,
           repeatType: 'reverse',
-          duration: 0.8,
+          duration: 1.2,
           ease: 'easeInOut'
         },
         scale: {
@@ -155,10 +239,10 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => {
     },
     winner: {
       scale: 1.1,
-      backgroundColor: '#ffd700',
-      color: '#000000', // Черный текст для золотого фона
-      textShadow: '0 0 15px hsla(51, 100%, 50%, 0.8)',
-      boxShadow: '0 0 20px hsla(51, 100%, 50%, 0.6)',
+      backgroundColor: 'oklch(85% 0.2 80)',
+      color: 'oklch(var(--b1))', // Черный текст для золотого фона
+      textShadow: '0 0 15px oklch(85% 0.2 80 / 0.8)',
+      boxShadow: '0 0 20px oklch(85% 0.2 80 / 0.6)',
       fontWeight: 700,
       zIndex: 2,
       rotate: [0, -3, 3, -3, 3, 0],
@@ -172,12 +256,12 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => {
       }
     },
     animating: {
-      scale: [1, 1.15, 1],
+      scale: [1, 1.1, 1],
       rotate: [-1, 1, -1],
       transition: {
         repeat: Infinity,
         repeatType: 'reverse',
-        duration: 0.8,
+        duration: 1.2,
         ease: 'easeInOut'
       },
     },
@@ -207,3 +291,5 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => {
     </StyledCard>
   );
 };
+
+export default Card;

@@ -22,12 +22,18 @@ const Container = styled.div`
 const Grid = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 0.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
   place-items: center;
+  max-width: 900px;
+  margin: 0 auto;
   
-  @media (min-width: 640px) {
-    gap: 0.75rem;
+  @media (min-width: 641px) {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  @media (min-width: 1025px) {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 `;
 
