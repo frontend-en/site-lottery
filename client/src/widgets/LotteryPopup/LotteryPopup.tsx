@@ -1,9 +1,8 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Modal } from '../../shared/UI/Modal';
 import { LotteryWheel, WHEEL_ANIMATION_DURATION, SpinSpeed } from '../../shared/UI/LotteryWheel';
 import { spinTracker } from '../../shared/UI/LotteryWheel/services/spinTracker';
-import { Button } from '../../shared';
+import { Button, Modal } from '../../shared';
 import { PRIZES, FAILS } from './constants';
 import { ResultDisplay } from './components/ResultDisplay';
 
