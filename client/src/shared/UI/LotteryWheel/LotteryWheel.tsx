@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SpinSpeed } from './consts';
 import { Card } from './Card';
-import { LotteryItem, shuffleArray, generatePromoCode, findOrRandomWinner } from './utils';
+import { LotteryItem, generatePromoCode } from './utils';
 
 interface LotteryWheelProps {
   items: LotteryItem[];
@@ -52,22 +52,27 @@ export const LotteryWheel: FC<LotteryWheelProps> = ({ items, spinSpeed, onResult
   useEffect(() => {
     if (!startAnimation) return;
 
-    let currentShuffledIndices = shuffleArray(items.map((_, index) => index));
     let currentPosition = 0;
 
     const interval = setInterval(() => {
       if (currentPosition >= items.length) {
-        currentShuffledIndices = shuffleArray(items.map((_, index) => index));
         currentPosition = 0;
       }
 
-      setHighlightedIndex(currentShuffledIndices[currentPosition]);
+      setHighlightedIndex(currentPosition);
       currentPosition++;
     }, 100);
 
-    const timeout = setTimeout(() => {
+    return () => {
       clearInterval(interval);
-      const winner = findOrRandomWinner(items);
+    };
+  }, [startAnimation, items]);
+
+  useEffect(() => {
+    if (!startAnimation) return;
+
+    const timeout = setTimeout(() => {
+      const winner = items.find((item) => item.index === highlightedIndex) || items[0];
       
       setHighlightedIndex(winner.index);
       setWinningItem(winner);
@@ -79,7 +84,6 @@ export const LotteryWheel: FC<LotteryWheelProps> = ({ items, spinSpeed, onResult
     }, 5000 - 100);
 
     return () => {
-      clearInterval(interval);
       clearTimeout(timeout);
     };
   }, [items, onResult, startAnimation]);

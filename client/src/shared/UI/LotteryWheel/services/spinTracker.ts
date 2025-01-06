@@ -23,6 +23,8 @@ class SpinTracker {
     if (!SpinTracker.instance) {
       SpinTracker.instance = new SpinTracker();
     }
+    console.log('SpinTracker instance:', SpinTracker.instance);
+    
 
     return SpinTracker.instance;
   }
